@@ -18,7 +18,7 @@ exports.authGet = (path, auth) => auth.get(path, (req, res) => __awaiter(void 0,
     //
     //     .catch(e => res.status(500)
     //         .json({error: 'some error', errorObject: e, in: 'authGet/User.find'}));
-    res.cookie('testCookie', 'test', { maxAge: 60 * 3 }); // 3 min
+    res.cookie('testCookie', 'test', { maxAge: 60000 * 3 }); // 3 min
     res.status(200).json({ answer: 'test' });
 }));
 //# sourceMappingURL=authGet.js.map
