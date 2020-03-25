@@ -27,13 +27,6 @@ export const authLoginPost = (path: string, auth: Router) =>
 
                             else {
                                 console.log('IUser?: ', {...newUser}); // for dev
-                                res.setHeader('headers', [
-                                    "Access-Control-Allow-Headers: Content-Type",
-                                    "Access-Control-Allow-Methods: POST, OPTIONS",
-                                    "Access-Control-Allow-Credentials: true",
-                                    "Access-Control-Allow-Origin: http://localhost:3000",
-                                    
-                                ]);
                                 res.cookie('token', token, {maxAge: tokenDeathTime});
                                 res.status(200).json({...newUser._doc}); // _doc!!!
                             }
