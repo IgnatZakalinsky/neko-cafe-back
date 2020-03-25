@@ -14,10 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../a-2-models/user"));
 const v1_1 = __importDefault(require("uuid/v1"));
+const app_1 = require("../../../neko-1-config/app");
 exports.authLoginPost = (path, auth) => auth.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    user_1.default.findOne({ email: req.body.email })
-        .exec()
-        .then((user) => {
+    try {
+        const user = yield user_1.default.findOne({ email: req.body.email }).exec();
         if (!user || user.password !== req.body.password) // will be added bCrypt
             res.status(400).json({ error: 'not correct email/password' });
         else {
@@ -25,23 +25,35 @@ exports.authLoginPost = (path, auth) => auth.post('/login', (req, res) => __awai
             const tokenDeathTime = req.body.rememberMe
                 ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 days
                 : new Date().getTime() + (1000 * 60 * 60 * 3); // 3 hours
-            user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: !!req.body.rememberMe }, { new: true })
-                .exec()
-                .then((newUser) => {
+            try {
+                const newUser = yield user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: !!req.body.rememberMe }, { new: true })
+                    .exec();
                 if (!newUser)
                     res.status(500).json({ error: 'not updated?', in: 'authLoginPost' });
                 else {
-                    console.log('IUser?: ', Object.assign({}, newUser)); // for dev
+                    if (app_1.DEV_VERSION)
+                        console.log('IUser?: ', Object.assign({}, newUser)); // for dev => _doc!!!
                     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
                     // res.cookie('token', token, {maxAge: tokenDeathTime});
-                    res.status(200).json(Object.assign({}, newUser._doc)); // _doc!!!
+                    const body = Object.assign({}, newUser._doc); // _doc!!!
+                    delete body.password; // don't send password to the front
+                    res.status(200).json(body);
                 }
-            })
-                .catch(e => res.status(500)
-                .json({ error: 'some error', errorObject: e, in: 'authLoginPost/User.findByIdAndUpdate' }));
+            }
+            catch (e) {
+                res.status(500)
+                    .json({
+                    error: 'some error',
+                    errorObject: app_1.DEV_VERSION && e,
+                    in: 'authLoginPost/User.findByIdAndUpdate'
+                });
+            }
         }
-    })
-        .catch(e => res.status(500).json({ error: 'some error', errorObject: e, in: 'authLoginPost/User.findOne' }));
+    }
+    catch (e) {
+        res.status(500)
+            .json({ error: 'some error', errorObject: app_1.DEV_VERSION && e, in: 'authLoginPost/User.findOne' });
+    }
 }));
 // const pass = "somePass";
 // const hashPass = await bCrypt.hash(pass, 10);

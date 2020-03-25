@@ -1,46 +1,54 @@
 import {Request, Response, Router} from "express";
 import User, {IUser} from "../a-2-models/user";
 import uuidv1 from "uuid/v1";
+import {DEV_VERSION} from "../../../neko-1-config/app";
 
 export const authLoginPost = (path: string, auth: Router) =>
 
     auth.post('/login', async (req: Request, res: Response) => {
-        User.findOne({email: req.body.email})
-            .exec()
-            .then((user: IUser | null) => {
-                if (!user || user.password !== req.body.password) // will be added bCrypt
-                    res.status(400).json({error: 'not correct email/password'});
+        try {
+            const user: IUser | null = await User.findOne({email: req.body.email}).exec();
 
-                else {
-                    const token = uuidv1();
-                    const tokenDeathTime = req.body.rememberMe
-                        ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 days
-                        : new Date().getTime() + (1000 * 60 * 60 * 3); // 3 hours
+            if (!user || user.password !== req.body.password) // will be added bCrypt
+                res.status(400).json({error: 'not correct email/password'});
 
-                    User.findByIdAndUpdate(
+            else {
+                const token = uuidv1();
+                const tokenDeathTime = req.body.rememberMe
+                    ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 days
+                    : new Date().getTime() + (1000 * 60 * 60 * 3); // 3 hours
+
+                try {
+                    const newUser: IUser | null = await User.findByIdAndUpdate(
                         user._id,
                         {token, tokenDeathTime, rememberMe: !!req.body.rememberMe},
                         {new: true})
-                        .exec()
-                        .then((newUser: IUser | null) => {
-                            if (!newUser) res.status(500).json({error: 'not updated?', in: 'authLoginPost'});
+                        .exec();
 
-                            else {
-                                console.log('IUser?: ', {...newUser}); // for dev
-                                // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-                                // res.cookie('token', token, {maxAge: tokenDeathTime});
-                                res.status(200).json({...newUser._doc}); // _doc!!!
-                            }
-                        })
-                        .catch(e => res.status(500)
-                            .json(
-                                {error: 'some error', errorObject: e, in: 'authLoginPost/User.findByIdAndUpdate'}
-                            ))
+                    if (!newUser) res.status(500).json({error: 'not updated?', in: 'authLoginPost'});
+
+                    else {
+                        if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
+                        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+                        // res.cookie('token', token, {maxAge: tokenDeathTime});
+
+                        const body: any = {...newUser._doc}; // _doc!!!
+                        delete body.password; // don't send password to the front
+                        res.status(200).json(body);
+                    }
+                } catch (e) {
+                    res.status(500)
+                        .json({
+                            error: 'some error',
+                            errorObject: DEV_VERSION && e,
+                            in: 'authLoginPost/User.findByIdAndUpdate'
+                        });
                 }
-            })
-            .catch(e => res.status(500).json(
-                {error: 'some error', errorObject: e, in: 'authLoginPost/User.findOne'}
-            ));
+            }
+        } catch (e) {
+            res.status(500)
+                .json({error: 'some error', errorObject: DEV_VERSION && e, in: 'authLoginPost/User.findOne'});
+        }
     });
 
 // const pass = "somePass";

@@ -16,12 +16,14 @@ const user_1 = __importDefault(require("../a-2-models/user"));
 const app_1 = require("../../../neko-1-config/app");
 exports.authGet = (path, auth) => auth.get(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (app_1.DEV_VERSION) {
-        user_1.default.find({ isAdmin: false })
-            .exec()
-            .then(users => res.status(200)
-            .json({ users, warnings: ['This endpoint will be deleted!!! Just for development!!!'] }))
-            .catch(e => res.status(500)
-            .json({ error: 'some error', errorObject: e, in: 'authGet/User.find' }));
+        try {
+            const users = yield user_1.default.find({ isAdmin: false }).exec();
+            res.status(200)
+                .json({ users, warnings: ['This endpoint will be deleted!!! Just for development!!!'] });
+        }
+        catch (e) {
+            res.status(500).json({ error: 'some error', errorObject: e, in: 'authGet/User.find' });
+        }
     }
     else {
         res.status(401).json({ error: 'endpoint is closed', in: 'authGet' });
