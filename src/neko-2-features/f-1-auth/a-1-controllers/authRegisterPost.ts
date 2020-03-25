@@ -30,7 +30,7 @@ export const createUser = async (req: Request, res: Response) => {
                 name: req.body.email,
             });
 
-            const addedUser: any = {...user};
+            const addedUser: any = {...user._doc};
             delete addedUser.password; // don't send password to the front
             res.status(201).json({addedUser, success: true});
 

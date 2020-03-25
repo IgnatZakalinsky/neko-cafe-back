@@ -13,7 +13,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const privateChat_1 = __importDefault(require("../pc-2-models/privateChat"));
-const findUserByToken_1 = require("../../f-1-auth/findUserByToken");
 exports.privateChatPost = (path, privateChat) => privateChat.post(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const f = (user) => __awaiter(void 0, void 0, void 0, function* () {
         let find = false;
@@ -44,6 +43,6 @@ exports.privateChatPost = (path, privateChat) => privateChat.post(path, (req, re
                 .catch(e => res.status(500)
                 .json({ error: 'some error', errorObject: e, in: 'privateChatPost/PrivateChat.create' }));
     });
-    findUserByToken_1.findUserByToken(req, res, req.query.token, f, 'privateChatPost');
+    // findUserByToken(req, res, req.query.token, f, 'privateChatPost');
 }));
 //# sourceMappingURL=privateChatPost.js.map

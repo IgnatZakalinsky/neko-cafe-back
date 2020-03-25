@@ -58,5 +58,5 @@ export const privateChatMessagesPost = (path: string, privateChat: Router) =>
                     }));
         };
 
-        findUserByToken(req, res, req.body.token, f, 'privateChatMessagesPost');
+        // findUserByToken(req, res, req.body.token, f, 'privateChatMessagesPost');
     });

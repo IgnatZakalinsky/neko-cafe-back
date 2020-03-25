@@ -29,7 +29,8 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             try {
                 const newUser = yield user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: !!req.body.rememberMe }, { new: true }).exec();
                 if (!newUser)
-                    res.status(500).json({ error: 'not updated?', in: 'logIn' });
+                    res.status(500)
+                        .json({ error: 'not updated?', in: 'logIn/User.findByIdAndUpdate' });
                 else {
                     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
                     // res.cookie('token', token, {maxAge: tokenDeathTime});

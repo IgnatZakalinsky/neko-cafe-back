@@ -24,7 +24,8 @@ export const logIn = async (req: Request, res: Response) => {
                     {new: true}
                 ).exec();
 
-                if (!newUser) res.status(500).json({error: 'not updated?', in: 'logIn'});
+                if (!newUser) res.status(500)
+                    .json({error: 'not updated?', in: 'logIn/User.findByIdAndUpdate'});
 
                 else {
                     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');

@@ -29,5 +29,5 @@ export const privateChatsGet = (path: string, privateChat: Router) =>
                     .json({error: 'some error', errorObject: e, in: 'privateChatsGet/PrivateChat.find'}));
         };
 
-        findUserByToken(req, res, req.query.token, f, 'privateChatsGet');
+        // findUserByToken(req, res, req.query.token, f, 'privateChatsGet');
     });
