@@ -34,7 +34,7 @@ export const logIn = async (req: Request, res: Response) => {
                     // if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
                     const body: any = {...newUser._doc}; // _doc!!!
                     delete body.password; // don't send password to the front
-                    res.status(200).json(body);
+                    res.status(200).json({...body, success: true});
 
                 }
             } catch (e) {

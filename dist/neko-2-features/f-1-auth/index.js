@@ -9,11 +9,12 @@ const authLoginPost_1 = require("./a-1-controllers/authLoginPost");
 const authRegisterPost_1 = require("./a-1-controllers/authRegisterPost");
 const authMePost_1 = require("./a-1-controllers/authMePost");
 const findUserByToken_1 = require("./findUserByToken");
+const authForgotPost_1 = require("./a-1-controllers/authForgotPost");
 const auth = express_1.default.Router();
 auth.get('/', authGet_1.getUsersForDev); // for dev
 auth.post('/login', authLoginPost_1.logIn);
 auth.post('/register', authRegisterPost_1.createUser);
 auth.post('/me', findUserByToken_1.findUserByToken(authMePost_1.getMe, 'getMe'));
-// authForgotPost('/forgot', auth);
+auth.post('/forgot', authForgotPost_1.generateNewPassword);
 exports.default = auth;
 //# sourceMappingURL=index.js.map

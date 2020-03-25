@@ -37,7 +37,7 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                     // if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
                     const body = Object.assign({}, newUser._doc); // _doc!!!
                     delete body.password; // don't send password to the front
-                    res.status(200).json(body);
+                    res.status(200).json(Object.assign(Object.assign({}, body), { success: true }));
                 }
             }
             catch (e) {

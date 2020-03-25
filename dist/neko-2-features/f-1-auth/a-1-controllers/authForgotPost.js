@@ -13,16 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../a-2-models/user"));
-exports.authForgotPost = (path, auth) => auth.post(path, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    user_1.default.findOne({ email: req.body.email })
-        .exec()
-        .then((user) => {
+const app_1 = require("../../../neko-1-config/app");
+exports.generateNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield user_1.default.findOne({ email: req.body.email }).exec();
         if (!user)
-            res.status(404).json({ error: 'Email address not found' });
-        else
+            res.status(404).json({ error: 'Email address not found', in: 'generateNewPassword' });
+        else {
             res.status(500).json({ error: "sorry, I can't send new password on your email" });
-    })
-        .catch(e => res.status(500)
-        .json({ error: 'some error', errorObject: e, in: 'authForgotPost/User.findOne' }));
-}));
+        }
+    }
+    catch (e) {
+        res.status(500)
+            .json({ error: 'some error', errorObject: app_1.DEV_VERSION && e, in: 'generateNewPassword/User.findOne' });
+    }
+});
 //# sourceMappingURL=authForgotPost.js.map

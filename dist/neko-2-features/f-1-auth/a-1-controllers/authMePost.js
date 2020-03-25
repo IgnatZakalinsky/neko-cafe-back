@@ -12,6 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getMe = (req, res, user) => __awaiter(void 0, void 0, void 0, function* () {
     const body = Object.assign({}, user);
     delete body.password; // don't send password to the front
-    res.status(200).json(body);
+    res.status(200).json(Object.assign(Object.assign({}, body), { success: true }));
 });
 //# sourceMappingURL=authMePost.js.map

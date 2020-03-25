@@ -4,6 +4,6 @@ import {IUser} from "../a-2-models/user";
 export const getMe = async (req: Request, res: Response, user: IUser) => {
     const body: any = {...user};
     delete body.password; // don't send password to the front
-    res.status(200).json(body);
+    res.status(200).json({...body, success: true});
 
 };
