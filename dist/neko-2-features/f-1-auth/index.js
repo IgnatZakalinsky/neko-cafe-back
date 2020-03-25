@@ -7,8 +7,8 @@ const express_1 = __importDefault(require("express"));
 const authGet_1 = require("./a-1-controllers/authGet");
 const authLoginPost_1 = require("./a-1-controllers/authLoginPost");
 const auth = express_1.default.Router();
-authGet_1.authGet('/', auth); // for dev
-authLoginPost_1.authLoginPost('/login', auth);
+auth.get('/', authGet_1.getUsersForDev); // for dev
+auth.post('/login', authLoginPost_1.logIn);
 // authRegisterPost('/register', auth);
 // authForgotPost('/forgot', auth);
 // authMePost('/me', auth);

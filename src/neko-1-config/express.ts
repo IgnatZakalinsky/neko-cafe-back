@@ -1,6 +1,6 @@
+import {Express, NextFunction, Request, Response} from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import {Express, NextFunction, Request, Response} from "express";
 import cookieParser from "cookie-parser";
 
 export const appUse = (app: Express) => {

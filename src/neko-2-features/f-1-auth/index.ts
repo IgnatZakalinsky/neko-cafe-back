@@ -1,15 +1,15 @@
 import express from "express";
-import {authGet} from "./a-1-controllers/authGet";
-import {authLoginPost} from "./a-1-controllers/authLoginPost";
+import {getUsersForDev} from "./a-1-controllers/authGet";
+import {logIn} from "./a-1-controllers/authLoginPost";
 import {authRegisterPost} from "./a-1-controllers/authRegisterPost";
 import {authForgotPost} from "./a-1-controllers/authForgotPost";
 import {authMePost} from "./a-1-controllers/authMePost";
 
 const auth = express.Router();
 
-authGet('/', auth); // for dev
+auth.get('/', getUsersForDev); // for dev
 
-authLoginPost('/login', auth);
+auth.post('/login', logIn);
 // authRegisterPost('/register', auth);
 // authForgotPost('/forgot', auth);
 // authMePost('/me', auth);

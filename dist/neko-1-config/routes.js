@@ -16,7 +16,7 @@ exports.routes = (app) => {
     //default
     app.use((req, res) => {
         console.log('Neko-bad url: ', req.method, req.url);
-        res.status(404).json({ method: req.method, url: req.url });
+        res.status(404).json({ error: 'bad url', method: req.method, url: req.url });
     });
 };
 //# sourceMappingURL=routes.js.map
