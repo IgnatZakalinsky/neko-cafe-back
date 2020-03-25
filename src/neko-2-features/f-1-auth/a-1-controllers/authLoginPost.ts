@@ -27,8 +27,8 @@ export const authLoginPost = (path: string, auth: Router) =>
 
                             else {
                                 console.log('IUser?: ', {...newUser}); // for dev
-                                res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-                                res.cookie('token', token, {maxAge: tokenDeathTime});
+                                // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+                                // res.cookie('token', token, {maxAge: tokenDeathTime});
                                 res.status(200).json({...newUser._doc}); // _doc!!!
                             }
                         })
@@ -47,6 +47,3 @@ export const authLoginPost = (path: string, auth: Router) =>
 // const hashPass = await bCrypt.hash(pass, 10);
 // console.log(await bCrypt.compare(pass, hashPass));
 // console.log(await bCrypt.compare(pass + '2', hashPass));
-//
-// res.cookie('testCookie', 'test', {maxAge: 60000 * 3}); // 3 min
-// res.status(200).json({answer: 'test'});

@@ -32,8 +32,8 @@ exports.authLoginPost = (path, auth) => auth.post('/login', (req, res) => __awai
                     res.status(500).json({ error: 'not updated?', in: 'authLoginPost' });
                 else {
                     console.log('IUser?: ', Object.assign({}, newUser)); // for dev
-                    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-                    res.cookie('token', token, { maxAge: tokenDeathTime });
+                    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+                    // res.cookie('token', token, {maxAge: tokenDeathTime});
                     res.status(200).json(Object.assign({}, newUser._doc)); // _doc!!!
                 }
             })
@@ -47,7 +47,4 @@ exports.authLoginPost = (path, auth) => auth.post('/login', (req, res) => __awai
 // const hashPass = await bCrypt.hash(pass, 10);
 // console.log(await bCrypt.compare(pass, hashPass));
 // console.log(await bCrypt.compare(pass + '2', hashPass));
-//
-// res.cookie('testCookie', 'test', {maxAge: 60000 * 3}); // 3 min
-// res.status(200).json({answer: 'test'});
 //# sourceMappingURL=authLoginPost.js.map
