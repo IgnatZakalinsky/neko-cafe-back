@@ -7,6 +7,8 @@ export interface IUser extends Document {
     rememberMe: boolean;
     isAdmin: boolean;
 
+    name: string;
+
     token: string;
     tokenDeathTime: number;
 
@@ -35,6 +37,12 @@ const UserSchema: Schema = new Schema(
             type: Boolean,
             required: true
         },
+        name: {
+            type: String,
+            required: true
+        },
+
+
         token: {
             type: String,
         },
@@ -51,4 +59,4 @@ const UserSchema: Schema = new Schema(
     }
 );
 
-export default mongoose.model<IUser>('user', UserSchema);
+export default mongoose.model<IUser>('neko-user', UserSchema);

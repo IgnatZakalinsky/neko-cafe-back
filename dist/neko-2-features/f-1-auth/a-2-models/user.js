@@ -26,6 +26,10 @@ const UserSchema = new mongoose_1.Schema({
         type: Boolean,
         required: true
     },
+    name: {
+        type: String,
+        required: true
+    },
     token: {
         type: String,
     },
@@ -38,5 +42,5 @@ const UserSchema = new mongoose_1.Schema({
         updatedAt: 'updated',
     },
 });
-exports.default = mongoose_1.default.model('user', UserSchema);
+exports.default = mongoose_1.default.model('neko-user', UserSchema);
 //# sourceMappingURL=user.js.map
