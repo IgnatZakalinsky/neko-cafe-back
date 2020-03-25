@@ -9,7 +9,7 @@ const auth = express.Router();
 
 authGet('/', auth); // for dev
 
-// authLoginPost('/login', auth);
+authLoginPost('/login', auth);
 // authRegisterPost('/register', auth);
 // authForgotPost('/forgot', auth);
 // authMePost('/me', auth);

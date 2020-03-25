@@ -19,7 +19,7 @@ export const authLoginPost = (path: string, auth: Router) =>
 
                     User.findByIdAndUpdate(
                         user._id,
-                        {token, tokenDeathTime, rememberMe: req.body.rememberMe},
+                        {token, tokenDeathTime, rememberMe: !!req.body.rememberMe},
                         {new: true})
                         .exec()
                         .then((newUser: IUser | null) => {
