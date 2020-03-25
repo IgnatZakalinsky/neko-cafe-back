@@ -32,6 +32,12 @@ exports.authLoginPost = (path, auth) => auth.post('/login', (req, res) => __awai
                     res.status(500).json({ error: 'not updated?', in: 'authLoginPost' });
                 else {
                     console.log('IUser?: ', Object.assign({}, newUser)); // for dev
+                    res.setHeader('headers', [
+                        "Access-Control-Allow-Headers: Content-Type",
+                        "Access-Control-Allow-Methods: POST, OPTIONS",
+                        "Access-Control-Allow-Credentials: true",
+                        "Access-Control-Allow-Origin: http://localhost:3000",
+                    ]);
                     res.cookie('token', token, { maxAge: tokenDeathTime });
                     res.status(200).json(Object.assign({}, newUser._doc)); // _doc!!!
                 }
