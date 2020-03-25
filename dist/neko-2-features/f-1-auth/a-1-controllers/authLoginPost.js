@@ -49,4 +49,11 @@ exports.authLoginPost = (path, auth) => auth.post('/login', (req, res) => __awai
         in: 'authLoginPost/User.findOne'
     }));
 }));
+// const pass = "somePass";
+// const hashPass = await bCrypt.hash(pass, 10);
+// console.log(await bCrypt.compare(pass, hashPass));
+// console.log(await bCrypt.compare(pass + '2', hashPass));
+//
+// res.cookie('testCookie', 'test', {maxAge: 60000 * 3}); // 3 min
+// res.status(200).json({answer: 'test'});
 //# sourceMappingURL=authLoginPost.js.map
