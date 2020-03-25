@@ -18,36 +18,29 @@ exports.authLoginPost = (path, auth) => auth.post('/login', (req, res) => __awai
     user_1.default.findOne({ email: req.body.email })
         .exec()
         .then((user) => {
-        if (!user || user.password !== req.body.password)
+        if (!user || user.password !== req.body.password) // will be added bCrypt
             res.status(400).json({ error: 'not correct email/password' });
         else {
             const token = v1_1.default();
             const tokenDeathTime = req.body.rememberMe
-                ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 day
-                : new Date().getTime() + (1000 * 60 * 60 * 24); // 1 day
-            user_1.default.findByIdAndUpdate(user.id, { token, tokenDeathTime, rememberMe: req.body.rememberMe }, { new: true })
+                ? new Date().getTime() + (1000 * 60 * 60 * 24 * 7) // 7 days
+                : new Date().getTime() + (1000 * 60 * 60 * 3); // 3 hours
+            user_1.default.findByIdAndUpdate(user._id, { token, tokenDeathTime, rememberMe: req.body.rememberMe }, { new: true })
                 .exec()
                 .then((newUser) => {
                 if (!newUser)
                     res.status(500).json({ error: 'not updated?', in: 'authLoginPost' });
                 else {
-                    console.log('IUser?: ', Object.assign({}, newUser));
-                    res.status(200).json(Object.assign(Object.assign({}, newUser._doc), { name: user.email })); // _doc!!!
+                    console.log('IUser?: ', Object.assign({}, newUser)); // for dev
+                    res.cookie('token', token, { maxAge: tokenDeathTime });
+                    res.status(200).json(Object.assign({}, newUser._doc)); // _doc!!!
                 }
             })
                 .catch(e => res.status(500)
-                .json({
-                error: 'some error',
-                errorObject: e,
-                in: 'authLoginPost/User.findByIdAndUpdate'
-            }));
+                .json({ error: 'some error', errorObject: e, in: 'authLoginPost/User.findByIdAndUpdate' }));
         }
     })
-        .catch(e => res.status(500).json({
-        error: 'some error',
-        errorObject: e,
-        in: 'authLoginPost/User.findOne'
-    }));
+        .catch(e => res.status(500).json({ error: 'some error', errorObject: e, in: 'authLoginPost/User.findOne' }));
 }));
 // const pass = "somePass";
 // const hashPass = await bCrypt.hash(pass, 10);

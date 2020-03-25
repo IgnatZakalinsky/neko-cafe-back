@@ -14,6 +14,6 @@ export const authGet = (path: string, auth: Router) =>
                 .catch(e => res.status(500)
                     .json({error: 'some error', errorObject: e, in: 'authGet/User.find'}));
         } else {
-                res.status(401).json({error: 'endpoint is closed', errorObject: {}, in: 'authGet'});
+                res.status(401).json({error: 'endpoint is closed', in: 'authGet'});
         }
     });

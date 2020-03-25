@@ -24,7 +24,7 @@ exports.authGet = (path, auth) => auth.get(path, (req, res) => __awaiter(void 0,
             .json({ error: 'some error', errorObject: e, in: 'authGet/User.find' }));
     }
     else {
-        res.status(401).json({ error: 'endpoint is closed', errorObject: {}, in: 'authGet' });
+        res.status(401).json({ error: 'endpoint is closed', in: 'authGet' });
     }
 }));
 //# sourceMappingURL=authGet.js.map
