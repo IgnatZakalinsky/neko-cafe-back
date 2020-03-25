@@ -8,13 +8,8 @@ export const logIn = async (req: Request, res: Response) => {
     try {
         const user: IUser | null = await User.findOne({email: req.body.email}).exec();
 
-        if (!user || await bCrypt.compare(req.body.password, user.password))
-            res.status(400).json({
-                error: 'not correct email/password',
-                in: 'logIn',
-                p: req.body.password,
-                px: user && user.password
-            });
+        if (!user || !(await bCrypt.compare(req.body.password, user.password)))
+            res.status(400).json({error: 'not correct email/password', in: 'logIn'});
 
         else {
             const token = uuidv1();

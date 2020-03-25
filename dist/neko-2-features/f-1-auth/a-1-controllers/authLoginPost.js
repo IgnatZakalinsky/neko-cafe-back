@@ -19,13 +19,8 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_1.default.findOne({ email: req.body.email }).exec();
-        if (!user || (yield bcrypt_1.default.compare(req.body.password, user.password)))
-            res.status(400).json({
-                error: 'not correct email/password',
-                in: 'logIn',
-                p: req.body.password,
-                px: user && user.password
-            });
+        if (!user || !(yield bcrypt_1.default.compare(req.body.password, user.password)))
+            res.status(400).json({ error: 'not correct email/password', in: 'logIn' });
         else {
             const token = v1_1.default();
             const tokenDeathTime = req.body.rememberMe
