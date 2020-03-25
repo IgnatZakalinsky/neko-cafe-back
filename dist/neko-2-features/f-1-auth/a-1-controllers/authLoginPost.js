@@ -15,10 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../a-2-models/user"));
 const v1_1 = __importDefault(require("uuid/v1"));
 const app_1 = require("../../../neko-1-config/app");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_1.default.findOne({ email: req.body.email }).exec();
-        if (!user || user.password !== req.body.password) // will be added bCrypt
+        if (!user || (yield bcrypt_1.default.compare(req.body.password, user.password)))
             res.status(400).json({ error: 'not correct email/password', in: 'logIn' });
         else {
             const token = v1_1.default();
@@ -30,10 +31,9 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 if (!newUser)
                     res.status(500).json({ error: 'not updated?', in: 'logIn' });
                 else {
-                    if (app_1.DEV_VERSION)
-                        console.log('IUser?: ', Object.assign({}, newUser)); // for dev => _doc!!!
                     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
                     // res.cookie('token', token, {maxAge: tokenDeathTime});
+                    // if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
                     const body = Object.assign({}, newUser._doc); // _doc!!!
                     delete body.password; // don't send password to the front
                     res.status(200).json(body);
@@ -49,8 +49,4 @@ exports.logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({ error: 'some error', errorObject: app_1.DEV_VERSION && e, in: 'logIn/User.findOne' });
     }
 });
-// const pass = "somePass";
-// const hashPass = await bCrypt.hash(pass, 10);
-// console.log(await bCrypt.compare(pass, hashPass));
-// console.log(await bCrypt.compare(pass + '2', hashPass));
 //# sourceMappingURL=authLoginPost.js.map

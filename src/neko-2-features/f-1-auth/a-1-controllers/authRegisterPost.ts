@@ -1,35 +1,46 @@
-import {Request, Response, Router} from "express";
+import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
 import {emailValidator, passwordValidator} from "../validators";
+import {DEV_VERSION} from "../../../neko-1-config/app";
+import bCrypt from "bcrypt";
 
-export const authRegisterPost = (path: string, auth: Router) =>
+export const createUser = async (req: Request, res: Response) => {
+    if (!emailValidator(req.body.email)) {
+        res.status(400).json({
+            error: 'Email not valid!'
+                + (DEV_VERSION ? ' /^[\\w]{1}[\\w-\\.]*@[\\w-]+\\.[a-z]{2,7}$/i.test(\'x@x.xx\')' : ''),
+            email: req.body.email,
+            in: 'createUser'
+        });
 
-    auth.post(path, async (req: Request, res: Response) => {
-        if (!emailValidator(req.body.email))
-            res.status(400).json(
-                {
-                    error: 'Email not valid! /^[\\w]{1}[\\w-\\.]*@[\\w-]+\\.[a-z]{2,7}$/i.test(\'x@x.xx\')',
-                    email: req.body.email
-                });
-        else if (!passwordValidator(req.body.password))
-            res.status(400)
-                .json({
-                    error: 'Password not valid! must be more than 7 characters...',
-                    password: req.body.password
-                });
+    } else if (!passwordValidator(req.body.password)) {
+        res.status(400).json({
+            error: 'Password not valid! must be more than 7 characters...',
+            password: req.body.password,
+            in: 'createUser'
+        });
 
-        else User.create({
+    } else {
+        try {
+            const user: IUser = await User.create({
                 email: req.body.email,
-                password: req.body.password,
+                password: await bCrypt.hash(req.body.password, 10),
                 rememberMe: false,
-                isAdmin: false
-            })
-                .then((user: IUser) => res.status(201).json({addedUser: user, success: true}))
+                isAdmin: false,
+                name: req.body.email,
+            });
 
-                .catch(e => res.status(400)
-                    .json({
-                        error: 'email address already exists',
-                        errorObject: e,
-                        in: 'authRegisterPost/User.create'
-                    }));
-    });
+            const addedUser: any = {...user};
+            delete addedUser.password; // don't send password to the front
+            res.status(201).json({addedUser, success: true});
+
+        } catch (e) {
+            res.status(500).json({
+                error: 'some error', // 'email may already exist',
+                errorObject: DEV_VERSION && e,
+                in: 'createUser/User.create'
+            });
+
+        }
+    }
+};

@@ -2,12 +2,13 @@ import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
 import uuidv1 from "uuid/v1";
 import {DEV_VERSION} from "../../../neko-1-config/app";
+import bCrypt from "bcrypt";
 
 export const logIn = async (req: Request, res: Response) => {
     try {
         const user: IUser | null = await User.findOne({email: req.body.email}).exec();
 
-        if (!user || user.password !== req.body.password) // will be added bCrypt
+        if (!user || await bCrypt.compare(req.body.password, user.password))
             res.status(400).json({error: 'not correct email/password', in: 'logIn'});
 
         else {
@@ -26,10 +27,10 @@ export const logIn = async (req: Request, res: Response) => {
                 if (!newUser) res.status(500).json({error: 'not updated?', in: 'logIn'});
 
                 else {
-                    if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
                     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
                     // res.cookie('token', token, {maxAge: tokenDeathTime});
 
+                    // if (DEV_VERSION) console.log('IUser?: ', {...newUser}); // for dev => _doc!!!
                     const body: any = {...newUser._doc}; // _doc!!!
                     delete body.password; // don't send password to the front
                     res.status(200).json(body);
@@ -45,8 +46,3 @@ export const logIn = async (req: Request, res: Response) => {
 
     }
 };
-
-// const pass = "somePass";
-// const hashPass = await bCrypt.hash(pass, 10);
-// console.log(await bCrypt.compare(pass, hashPass));
-// console.log(await bCrypt.compare(pass + '2', hashPass));
