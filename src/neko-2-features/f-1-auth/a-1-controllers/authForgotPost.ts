@@ -1,7 +1,7 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
 import {DEV_VERSION} from "../../../neko-1-config/app";
-import nodeMailer from "nodemailer";
+import {sendMail} from "../../f-2-gmail/gmail";
 
 export const generateNewPassword = async (req: Request, res: Response) => {
     try {
@@ -12,28 +12,11 @@ export const generateNewPassword = async (req: Request, res: Response) => {
         else {
             // res.status(500).json({error: "sorry, I can't send new password on your email"});
 
-            const transporter = nodeMailer.createTransport({
-                service: 'gmail',
-                // host: 'smtp.ethereal.email',
-                // port: 587,
-                // secure: false,
-                auth: {
-                    user: process.env.GMAIL_USER || '',
-                    pass: process.env.GMAIL_PASS || ''
-                }
-            });
-
-            const info = await transporter.sendMail({
-                from: 'Neko-cafe',
-                to: 'ai73a@yandex.ru',
-                subject: 'gmail test',
-                text: 'test text',
-                // html: '<div style="color: lime; background-color: black">test html</div>',
-            });
-
-            // for accept
-            // https://myaccount.google.com/lesssecureapps
-            console.log('gmail info: ', info);
+            await sendMail(
+                'ai73a@yandex.ru',
+                'gmail test',
+                '<div style="color: lime; background-color: black">test html</div>'
+            );
 
             res.status(500).json({status: "send"});
 
