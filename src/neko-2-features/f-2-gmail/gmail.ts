@@ -10,6 +10,9 @@ const transporter = nodeMailer.createTransport({
 });
 
 export const sendMail = async (to: string, subject: string, html?: string, text?: string) => {
+
+    // for accept
+    // https://myaccount.google.com/lesssecureapps
     const info = await transporter.sendMail({
         from: 'Neko-cafe',
         to,
@@ -18,7 +21,7 @@ export const sendMail = async (to: string, subject: string, html?: string, text?
         html: text ? undefined : html,
     });
 
-// for accept
-// https://myaccount.google.com/lesssecureapps
     if (DEV_VERSION) console.log('gmail info: ', info);
+
+    return info;
 };

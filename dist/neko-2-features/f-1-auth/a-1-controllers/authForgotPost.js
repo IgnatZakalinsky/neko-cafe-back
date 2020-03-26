@@ -15,15 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../a-2-models/user"));
 const app_1 = require("../../../neko-1-config/app");
 const gmail_1 = require("../../f-2-gmail/gmail");
+const generatePassword_1 = require("../generatePassword");
 exports.generateNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_1.default.findOne({ email: req.body.email }).exec();
         if (!user)
             res.status(404).json({ error: 'Email address not found', in: 'generateNewPassword' });
         else {
-            // res.status(500).json({error: "sorry, I can't send new password on your email"});
-            yield gmail_1.sendMail('ai73a@yandex.ru', 'gmail test', '<div style="color: lime; background-color: black">test html</div>');
-            res.status(500).json({ status: "send" });
+            try {
+                const password = yield generatePassword_1.generatePassword(user._id);
+                const info = yield gmail_1.sendMail('ai73a@yandex.ru', 'generated new password', '<div style="color: lime; background-color: black; padding: 10px">' +
+                    'new password: ' + password +
+                    '</div>');
+                res.status(200).json({
+                    status: "sent",
+                    success: Boolean(info.accepted && info.accepted.length > 0),
+                    info: app_1.DEV_VERSION && info,
+                });
+            }
+            catch (e) {
+                res.status(500)
+                    .json({ error: 'some error', errorObject: app_1.DEV_VERSION && e, in: 'generateNewPassword/sendMail' });
+            }
         }
     }
     catch (e) {

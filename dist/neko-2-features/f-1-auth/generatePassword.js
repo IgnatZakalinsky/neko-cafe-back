@@ -12,27 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const nodemailer_1 = __importDefault(require("nodemailer"));
-const app_1 = require("../../neko-1-config/app");
-const transporter = nodemailer_1.default.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_USER || '',
-        pass: process.env.GMAIL_PASS || ''
+const user_1 = __importDefault(require("./a-2-models/user"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+exports.generatePassword = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-+=?.,';
+    let password = '';
+    for (let i = 0; i < 9; i++) {
+        password += chars[Math.floor(Math.random() * chars.length)];
     }
+    yield user_1.default.findByIdAndUpdate(userId, { password: yield bcrypt_1.default.hash(password, 10), }, { new: true }).exec();
+    return password;
 });
-exports.sendMail = (to, subject, html, text) => __awaiter(void 0, void 0, void 0, function* () {
-    // for accept
-    // https://myaccount.google.com/lesssecureapps
-    const info = yield transporter.sendMail({
-        from: 'Neko-cafe',
-        to,
-        subject,
-        text,
-        html: text ? undefined : html,
-    });
-    if (app_1.DEV_VERSION)
-        console.log('gmail info: ', info);
-    return info;
-});
-//# sourceMappingURL=gmail.js.map
+//# sourceMappingURL=generatePassword.js.map
