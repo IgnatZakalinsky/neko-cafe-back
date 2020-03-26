@@ -12,15 +12,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_1 = __importDefault(require("./a-2-models/user"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-exports.generatePassword = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const chars = 'ADEFGHJLMNPQRTYabdefghijmnpqrty2345679!@#$%^&*()-+=?.,'; // Il1Oo0CcSsUuVvWwXxZzB8Kk
-    let password = '';
-    for (let i = 0; i < 9; i++) {
-        password += chars[Math.floor(Math.random() * chars.length)];
+const user_1 = __importDefault(require("../a-2-models/user"));
+const app_1 = require("../../../neko-1-config/app");
+exports.getUsersForDev = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (app_1.DEV_VERSION) {
+        try {
+            const users = yield user_1.default.find({ isAdmin: false }).exec();
+            res.status(200)
+                .json({ users, warnings: 'This endpoint will be deleted!!! Just for development!!!' });
+        }
+        catch (e) {
+            res.status(500).json({ error: 'some error', errorObject: e, in: 'getUsersForDev/User.find' });
+        }
     }
-    yield user_1.default.findByIdAndUpdate(userId, { password: yield bcrypt_1.default.hash(password, 10), }, { new: true }).exec();
-    return password;
+    else {
+        res.status(401).json({ error: 'endpoint is closed', in: 'getUsersForDev' });
+    }
 });
-//# sourceMappingURL=generateResetPasswordToken.js.map
+//# sourceMappingURL=getUsersForDev.js.map

@@ -11,6 +11,8 @@ export interface IUser extends Document {
 
     token: string;
     tokenDeathTime: number;
+    resetPasswordToken: string;
+    resetPasswordTokenDeathTime: number;
 
     created: Date;
     updated: Date;
@@ -48,7 +50,13 @@ const UserSchema: Schema = new Schema(
         },
         tokenDeathTime: {
             type: Number,
-        }
+        },
+        resetPasswordToken: {
+            type: String,
+        },
+        resetPasswordTokenDeathTime: {
+            type: Number,
+        },
 
     },
     {

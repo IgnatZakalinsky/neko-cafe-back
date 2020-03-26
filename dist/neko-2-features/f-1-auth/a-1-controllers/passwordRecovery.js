@@ -48,4 +48,4 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
             .json({ error: 'some error', errorObject: app_1.DEV_VERSION && e, in: 'passwordRecovery/User.findOne' });
     }
 });
-//# sourceMappingURL=authForgotPost.js.map
+//# sourceMappingURL=passwordRecovery.js.map

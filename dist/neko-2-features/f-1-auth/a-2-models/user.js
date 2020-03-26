@@ -35,7 +35,13 @@ const UserSchema = new mongoose_1.Schema({
     },
     tokenDeathTime: {
         type: Number,
-    }
+    },
+    resetPasswordToken: {
+        type: String,
+    },
+    resetPasswordTokenDeathTime: {
+        type: Number,
+    },
 }, {
     timestamps: {
         createdAt: 'created',

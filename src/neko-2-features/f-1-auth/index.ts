@@ -1,10 +1,11 @@
 import express from "express";
-import {getUsersForDev} from "./a-1-controllers/authGet";
-import {logIn} from "./a-1-controllers/authLoginPost";
-import {createUser} from "./a-1-controllers/authRegisterPost";
-import {getMe} from "./a-1-controllers/authMePost";
+import {getUsersForDev} from "./a-1-controllers/getUsersForDev";
+import {logIn} from "./a-1-controllers/logIn";
+import {createUser} from "./a-1-controllers/createUser";
+import {getMe} from "./a-1-controllers/getMe";
 import {findUserByToken} from "../../neko-3-helpers/h-2-users/findUserByToken";
-import {generateNewPassword} from "./a-1-controllers/authForgotPost";
+import {passwordRecovery} from "./a-1-controllers/passwordRecovery";
+import {setNewPassword} from "./a-1-controllers/setNewPassword";
 
 const auth = express.Router();
 
@@ -13,6 +14,7 @@ auth.get('/', getUsersForDev); // for dev
 auth.post('/login', logIn);
 auth.post('/register', createUser);
 auth.post('/me', findUserByToken(getMe, 'getMe'));
-auth.post('/forgot', generateNewPassword);
+auth.post('/forgot', passwordRecovery);
+auth.post('/set-new-password', setNewPassword);
 
 export default auth;

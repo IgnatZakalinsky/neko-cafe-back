@@ -12,15 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const user_1 = __importDefault(require("./a-2-models/user"));
-const bcrypt_1 = __importDefault(require("bcrypt"));
-exports.generatePassword = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const chars = 'ADEFGHJLMNPQRTYabdefghijmnpqrty2345679!@#$%^&*()-+=?.,'; // Il1Oo0CcSsUuVvWwXxZzB8Kk
-    let password = '';
-    for (let i = 0; i < 9; i++) {
-        password += chars[Math.floor(Math.random() * chars.length)];
-    }
-    yield user_1.default.findByIdAndUpdate(userId, { password: yield bcrypt_1.default.hash(password, 10), }, { new: true }).exec();
-    return password;
+const user_1 = __importDefault(require("../../neko-2-features/f-1-auth/a-2-models/user"));
+const v1_1 = __importDefault(require("uuid/v1"));
+exports.generateResetPasswordToken = (userId) => __awaiter(void 0, void 0, void 0, function* () {
+    // const chars = 'ADEFGHJLMNPQRTYabdefghijmnpqrty2345679!@#$%^&*()-+=?.,'; // Il1Oo0CcSsUuVvWwXxZzB8Kk
+    //
+    // let password = '';
+    // for (let i = 0; i < 9; i++) {
+    //     password += chars[Math.floor(Math.random() * chars.length)];
+    // }
+    const resetPasswordToken = v1_1.default();
+    yield user_1.default.findByIdAndUpdate(userId, { resetPasswordToken, resetPasswordTokenDeathTime: new Date().getTime() + (1000 * 60 * 10) }, // 10 min
+    { new: true }).exec();
+    return resetPasswordToken;
 });
 //# sourceMappingURL=generateResetPasswordToken.js.map

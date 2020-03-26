@@ -23,4 +23,4 @@ exports.generatePassword = (userId) => __awaiter(void 0, void 0, void 0, functio
     yield user_1.default.findByIdAndUpdate(userId, { password: yield bcrypt_1.default.hash(password, 10), }, { new: true }).exec();
     return password;
 });
-//# sourceMappingURL=generatePassword.js.map
+//# sourceMappingURL=generateResetPasswordToken.js.map
