@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("./a-2-models/user"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.generatePassword = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const chars = 'ADEFGHJKLMNPQRTYabdefghijkmnpqrty2345679!@#$%^&*()-+=?.,'; // Il1Oo0CcSsUuVvWwXxZzB8
+    const chars = 'ADEFGHJLMNPQRTYabdefghijmnpqrty2345679!@#$%^&*()-+=?.,'; // Il1Oo0CcSsUuVvWwXxZzB8Kk
     let password = '';
     for (let i = 0; i < 9; i++) {
         password += chars[Math.floor(Math.random() * chars.length)];

@@ -2,7 +2,7 @@ import {Request, Response, Router} from "express";
 import PrivateChat, {IPrivateChat} from "../pc-2-models/privateChat"
 import Message, {IMessage} from "../pc-2-models/message"
 import {IUser} from "../../f-1-auth/a-2-models/user";
-import {findUserByToken} from "../../f-1-auth/findUserByToken";
+import {findUserByToken} from "../../../neko-3-helpers/h-2-users/findUserByToken";
 
 export const privateChatMessagesPost = (path: string, privateChat: Router) =>
 

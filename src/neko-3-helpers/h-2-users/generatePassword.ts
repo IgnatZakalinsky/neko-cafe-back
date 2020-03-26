@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import User from "./a-2-models/user";
+import User from "../../neko-2-features/f-1-auth/a-2-models/user";
 import bCrypt from "bcrypt";
 
 export const generatePassword = async (userId: mongoose.Types.ObjectId) => {
-    const chars = 'ADEFGHJKLMNPQRTYabdefghijkmnpqrty2345679!@#$%^&*()-+=?.,'; // Il1Oo0CcSsUuVvWwXxZzB8
+    const chars = 'ADEFGHJLMNPQRTYabdefghijmnpqrty2345679!@#$%^&*()-+=?.,'; // Il1Oo0CcSsUuVvWwXxZzB8Kk
 
     let password = '';
     for (let i = 0; i < 9; i++) {

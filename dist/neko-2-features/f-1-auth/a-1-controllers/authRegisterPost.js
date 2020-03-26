@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../a-2-models/user"));
-const validators_1 = require("../validators");
+const validators_1 = require("../../../neko-3-helpers/h-2-users/validators");
 const app_1 = require("../../../neko-1-config/app");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

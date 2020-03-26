@@ -10,7 +10,12 @@ const { MongoDBUris, appUse, routes } = neko_1_config_1.config;
 const app = express_1.default();
 appUse(app);
 routes(app);
-mongoose_1.default.connect(MongoDBUris, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+mongoose_1.default.connect(MongoDBUris, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+})
     .then(() => {
     console.log('Neko-MongoDB connected successfully');
     //start

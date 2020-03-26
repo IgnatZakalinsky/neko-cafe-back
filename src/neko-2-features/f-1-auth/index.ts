@@ -3,7 +3,7 @@ import {getUsersForDev} from "./a-1-controllers/authGet";
 import {logIn} from "./a-1-controllers/authLoginPost";
 import {createUser} from "./a-1-controllers/authRegisterPost";
 import {getMe} from "./a-1-controllers/authMePost";
-import {findUserByToken} from "./findUserByToken";
+import {findUserByToken} from "../../neko-3-helpers/h-2-users/findUserByToken";
 import {generateNewPassword} from "./a-1-controllers/authForgotPost";
 
 const auth = express.Router();

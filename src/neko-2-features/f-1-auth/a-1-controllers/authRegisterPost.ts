@@ -1,6 +1,6 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
-import {emailValidator, passwordValidator} from "../validators";
+import {emailValidator, passwordValidator} from "../../../neko-3-helpers/h-2-users/validators";
 import {DEV_VERSION} from "../../../neko-1-config/app";
 import bCrypt from "bcrypt";
 

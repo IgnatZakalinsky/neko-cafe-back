@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
 import User, {IUser} from "../a-2-models/user";
 import {DEV_VERSION} from "../../../neko-1-config/app";
-import {sendMail} from "../../f-2-gmail/gmail";
-import {generatePassword} from "../generatePassword";
+import {sendMail} from "../../../neko-3-helpers/h-1-gmail/gmail";
+import {generatePassword} from "../../../neko-3-helpers/h-2-users/generatePassword";
 
 export const generateNewPassword = async (req: Request, res: Response) => {
     try {

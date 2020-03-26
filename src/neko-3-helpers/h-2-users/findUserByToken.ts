@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import User, {IUser} from "./a-2-models/user";
+import User, {IUser} from "../../neko-2-features/f-1-auth/a-2-models/user";
 import {DEV_VERSION} from "../../neko-1-config/app";
 import uuidv1 from "uuid/v1";
 

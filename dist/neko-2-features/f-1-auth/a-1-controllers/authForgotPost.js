@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../a-2-models/user"));
 const app_1 = require("../../../neko-1-config/app");
-const gmail_1 = require("../../f-2-gmail/gmail");
-const generatePassword_1 = require("../generatePassword");
+const gmail_1 = require("../../../neko-3-helpers/h-1-gmail/gmail");
+const generatePassword_1 = require("../../../neko-3-helpers/h-2-users/generatePassword");
 exports.generateNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_1.default.findOne({ email: req.body.email }).exec();

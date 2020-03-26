@@ -9,7 +9,12 @@ const app = express();
 appUse(app);
 routes(app);
 
-mongoose.connect(MongoDBUris, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
+mongoose.connect(MongoDBUris, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
+})
     .then(() => {
         console.log('Neko-MongoDB connected successfully');
 

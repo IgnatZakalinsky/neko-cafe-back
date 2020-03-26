@@ -8,7 +8,7 @@ const authGet_1 = require("./a-1-controllers/authGet");
 const authLoginPost_1 = require("./a-1-controllers/authLoginPost");
 const authRegisterPost_1 = require("./a-1-controllers/authRegisterPost");
 const authMePost_1 = require("./a-1-controllers/authMePost");
-const findUserByToken_1 = require("./findUserByToken");
+const findUserByToken_1 = require("../../neko-3-helpers/h-2-users/findUserByToken");
 const authForgotPost_1 = require("./a-1-controllers/authForgotPost");
 const auth = express_1.default.Router();
 auth.get('/', authGet_1.getUsersForDev); // for dev
