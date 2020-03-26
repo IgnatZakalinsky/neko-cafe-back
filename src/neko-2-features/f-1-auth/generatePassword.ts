@@ -3,7 +3,7 @@ import User from "./a-2-models/user";
 import bCrypt from "bcrypt";
 
 export const generatePassword = async (userId: mongoose.Types.ObjectId) => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-+=?.,';
+    const chars = 'ADEFGHJKLMNPQRTYabdefghijkmnpqrty2345679!@#$%^&*()-+=?.,'; // Il1Oo0CcSsUuVvWwXxZzB8
 
     let password = '';
     for (let i = 0; i < 9; i++) {

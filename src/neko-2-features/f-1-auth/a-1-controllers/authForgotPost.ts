@@ -15,7 +15,7 @@ export const generateNewPassword = async (req: Request, res: Response) => {
                 const password = await generatePassword(user._id);
 
                 const info = await sendMail(
-                    'ai73a@yandex.ru',
+                    user.email,
                     'generated new password',
                     '<div style="color: lime; background-color: black; padding: 10px">' +
                     'new password: ' + password +

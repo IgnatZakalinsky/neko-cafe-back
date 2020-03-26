@@ -24,7 +24,7 @@ exports.generateNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, fu
         else {
             try {
                 const password = yield generatePassword_1.generatePassword(user._id);
-                const info = yield gmail_1.sendMail('ai73a@yandex.ru', 'generated new password', '<div style="color: lime; background-color: black; padding: 10px">' +
+                const info = yield gmail_1.sendMail(user.email, 'generated new password', '<div style="color: lime; background-color: black; padding: 10px">' +
                     'new password: ' + password +
                     '</div>');
                 res.status(200).json({
