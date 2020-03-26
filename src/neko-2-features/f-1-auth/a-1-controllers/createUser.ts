@@ -31,7 +31,11 @@ export const createUser = async (req: Request, res: Response) => {
             });
 
             const addedUser: any = {...user._doc};
+
             delete addedUser.password; // don't send password to the front
+            delete addedUser.resetPasswordToken;
+            delete addedUser.resetPasswordTokenDeathTime;
+
             res.status(201).json({addedUser, success: true});
 
         } catch (e) {

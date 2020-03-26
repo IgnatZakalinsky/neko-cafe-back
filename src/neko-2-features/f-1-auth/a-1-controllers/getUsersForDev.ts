@@ -5,7 +5,9 @@ import {DEV_VERSION} from "../../../neko-1-config/app";
 export const getUsersForDev = async (req: Request, res: Response) => {
     if (DEV_VERSION) {
         try {
-            const users: IUser[] = await User.find({isAdmin: false}).exec();
+            const users = await User.find({isAdmin: false})
+                .select('_id email rememberMe isAdmin name token tokenDeathTime created updated')
+                .exec();
 
             res.status(200)
                 .json({users, warnings: 'This endpoint will be deleted!!! Just for development!!!'});

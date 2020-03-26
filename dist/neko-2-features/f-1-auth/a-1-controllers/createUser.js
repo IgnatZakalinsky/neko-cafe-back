@@ -43,6 +43,8 @@ exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             });
             const addedUser = Object.assign({}, user._doc);
             delete addedUser.password; // don't send password to the front
+            delete addedUser.resetPasswordToken;
+            delete addedUser.resetPasswordTokenDeathTime;
             res.status(201).json({ addedUser, success: true });
         }
         catch (e) {

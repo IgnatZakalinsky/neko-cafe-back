@@ -17,7 +17,9 @@ const app_1 = require("../../../neko-1-config/app");
 exports.getUsersForDev = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (app_1.DEV_VERSION) {
         try {
-            const users = yield user_1.default.find({ isAdmin: false }).exec();
+            const users = yield user_1.default.find({ isAdmin: false })
+                .select('_id email rememberMe isAdmin name token tokenDeathTime created updated')
+                .exec();
             res.status(200)
                 .json({ users, warnings: 'This endpoint will be deleted!!! Just for development!!!' });
         }
