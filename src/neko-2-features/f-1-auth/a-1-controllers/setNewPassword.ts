@@ -6,7 +6,8 @@ import {passwordValidator} from "../../../neko-3-helpers/h-2-users/validators";
 
 export const setNewPassword = async (req: Request, res: Response) => {
         try {
-            const user: IUser | null = await User.findOne({token: req.body.resetPasswordToken}).exec();
+            const user: IUser | null = await User.findOne({resetPasswordToken: req.body.resetPasswordToken})
+                .exec();
 
             if (!user || user.resetPasswordTokenDeathTime < new Date().getTime())
                 res.status(401).json({error: 'bad token!', in: 'setNewPassword/User.findOne'});

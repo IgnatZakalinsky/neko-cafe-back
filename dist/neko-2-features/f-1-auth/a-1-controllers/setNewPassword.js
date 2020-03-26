@@ -18,7 +18,8 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const validators_1 = require("../../../neko-3-helpers/h-2-users/validators");
 exports.setNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield user_1.default.findOne({ token: req.body.resetPasswordToken }).exec();
+        const user = yield user_1.default.findOne({ resetPasswordToken: req.body.resetPasswordToken })
+            .exec();
         if (!user || user.resetPasswordTokenDeathTime < new Date().getTime())
             res.status(401).json({ error: 'bad token!', in: 'setNewPassword/User.findOne' });
         else if (!validators_1.passwordValidator(req.body.password)) {
