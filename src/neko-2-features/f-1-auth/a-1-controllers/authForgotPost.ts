@@ -23,7 +23,7 @@ export const generateNewPassword = async (req: Request, res: Response) => {
                 }
             });
 
-            const info = transporter.sendMail({
+            const info = await transporter.sendMail({
                 from: 'Neko-cafe',
                 to: 'ai73a@yandex.ru',
                 subject: 'gmail test',
@@ -31,7 +31,11 @@ export const generateNewPassword = async (req: Request, res: Response) => {
                 // html: '<div style="color: lime; background-color: black">test html</div>',
             });
 
-            console.log('gmail info: ', info)
+            // for accept
+            // https://myaccount.google.com/lesssecureapps
+            console.log('gmail info: ', info);
+
+            res.status(500).json({status: "send"});
 
         }
     } catch (e) {

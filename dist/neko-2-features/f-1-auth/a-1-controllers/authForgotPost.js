@@ -32,13 +32,16 @@ exports.generateNewPassword = (req, res) => __awaiter(void 0, void 0, void 0, fu
                     pass: process.env.GMAIL_PASS || ''
                 }
             });
-            const info = transporter.sendMail({
+            const info = yield transporter.sendMail({
                 from: 'Neko-cafe',
                 to: 'ai73a@yandex.ru',
                 subject: 'gmail test',
                 text: 'test text',
             });
+            // for accept
+            // https://myaccount.google.com/lesssecureapps
             console.log('gmail info: ', info);
+            res.status(500).json({ status: "send" });
         }
     }
     catch (e) {
