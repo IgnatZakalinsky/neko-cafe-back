@@ -18,7 +18,7 @@ export const appUse = (app: Express) => {
         console.log(req.method, req.url, 'params:', req.params);
         console.log('query:', req.query);
         console.log('body:', req.body);
-        console.log('cookies:', req.cookies);
+        // console.log('cookies:', req.cookies);
         // console.log('headers:', req.headers);
         // console.log('rawHeaders:', req.rawHeaders);
         next();
