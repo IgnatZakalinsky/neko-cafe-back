@@ -17,13 +17,17 @@ export const passwordRecovery = async (req: Request, res: Response) => {
                 const info = await sendMail(
                     user.email,
                     'password recovery',
-                    '<div style="color: lime; background-color: black; padding: 10px">' +
-                    'password recovery link: ' +
-                    `<a href="http://localhost:3000/#/set-new-password/${resetPasswordToken}">` +
-                    `http://localhost:3000/#/set-new-password/${resetPasswordToken}` +
-                    '</a>' +
-                    `<div>resetPasswordToken: ${resetPasswordToken}</div>` +
-                    '</div>'
+                    (req.body.html1 ||
+                        '<div style="color: lime; background-color: black; padding: 10px">' +
+                        'password recovery link: ' +
+                        `<a href="http://localhost:3000/#/set-new-password/${resetPasswordToken}">` +
+                        `http://localhost:3000/#/set-new-password/${resetPasswordToken}` +
+                        '</a>' +
+                        '<div>resetPasswordToken: ') +
+                    resetPasswordToken +
+                    (req.body.html2 ||
+                        '</div>' +
+                        '</div>')
                 );
 
                 res.status(200).json({
