@@ -19,7 +19,7 @@ auth.post('/me', findUserByToken_1.findUserByToken(getMe_1.getMe, 'getMe'));
 auth.post('/forgot', passwordRecovery_1.passwordRecovery);
 auth.post('/set-new-password', setNewPassword_1.setNewPassword);
 auth.post('/test', (req, res) => {
-    if (req.body.success) {
+    if (req.body.success === true) {
         res.status(200).json({
             errorText: '...всё ок)',
             info: 'код 200 - обычно означает что скорее всего всё ок)',
@@ -27,7 +27,7 @@ auth.post('/test', (req, res) => {
             yourQuery: req.query
         });
     }
-    else if (req.body.success === undefined) {
+    else if (req.body.success !== false) {
         res.status(400).json({
             errorText: 'Ты не отправил success в body вообще!',
             info: 'ошибка 400 - обычно означает что скорее всего фронт отправил что-то не то на бэк!',
