@@ -29,7 +29,9 @@ auth.post('/test', (req, res) => {
     }
     else if (req.body.success !== false) {
         res.status(400).json({
-            errorText: 'Ты не отправил success в body вообще!',
+            errorText: req.body.success === undefined
+                ? 'Ты не отправил success в body вообще!'
+                : 'в success не булевое значение! возможно это строка, мне лень проверять...',
             info: 'ошибка 400 - обычно означает что скорее всего фронт отправил что-то не то на бэк!',
             yourBody: req.body,
             yourQuery: req.query
