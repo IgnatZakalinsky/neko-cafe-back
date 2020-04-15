@@ -18,5 +18,16 @@ auth.post('/register', createUser_1.createUser);
 auth.post('/me', findUserByToken_1.findUserByToken(getMe_1.getMe, 'getMe'));
 auth.post('/forgot', passwordRecovery_1.passwordRecovery);
 auth.post('/set-new-password', setNewPassword_1.setNewPassword);
+auth.get('/test', (req, res) => {
+    if (req.body.success) {
+    }
+    else if (req.body.success === undefined) {
+        res.status(500).json({
+            errorText: 'Ты не отправил success в body вообще!'
+        });
+    }
+    else {
+    }
+});
 exports.default = auth;
 //# sourceMappingURL=index.js.map

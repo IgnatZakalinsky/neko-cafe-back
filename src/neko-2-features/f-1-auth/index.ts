@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import {getUsersForDev} from "./a-1-controllers/getUsersForDev";
 import {logIn} from "./a-1-controllers/logIn";
 import {createUser} from "./a-1-controllers/createUser";
@@ -16,5 +16,17 @@ auth.post('/register', createUser);
 auth.post('/me', findUserByToken(getMe, 'getMe'));
 auth.post('/forgot', passwordRecovery);
 auth.post('/set-new-password', setNewPassword);
+
+auth.get('/test', (req: Request, res: Response) => {
+    if (req.body.success) {
+
+    } else if (req.body.success === undefined) {
+        res.status(500).json({
+            errorText: 'Ты не отправил success в body вообще!'
+        })
+    } else {
+
+    }
+});
 
 export default auth;

@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import User, {IUser} from "../a-2-models/user";
+import User from "../a-2-models/user";
 import {DEV_VERSION} from "../../../neko-1-config/app";
 
 export const getUsersForDev = async (req: Request, res: Response) => {
