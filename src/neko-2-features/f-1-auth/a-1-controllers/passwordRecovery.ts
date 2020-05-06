@@ -14,26 +14,29 @@ export const passwordRecovery = async (req: Request, res: Response) => {
             try {
                 const resetPasswordToken = await generateResetPasswordToken(user._id);
 
-                const info = await sendMail(
-                    user.email,
-                    'password recovery',
-                    (req.body.html1 ||
-                        '<div style="color: lime; background-color: black; padding: 10px">' +
-                        'password recovery link: ' +
-                        `<a href="http://localhost:3000/#/set-new-password/${resetPasswordToken}">` +
-                        `http://localhost:3000/#/set-new-password/${resetPasswordToken}` +
-                        '</a>' +
-                        '<div>resetPasswordToken: ') +
+                const html = (req.body.html1 ||
+                    '<div style="color: lime; background-color: black; padding: 10px">' +
+                    'password recovery link: ' +
+                    `<a href="http://localhost:3000/#/set-new-password/${resetPasswordToken}">` +
+                    `http://localhost:3000/#/set-new-password/${resetPasswordToken}` +
+                    '</a>' +
+                    '<div>resetPasswordToken: ') +
                     resetPasswordToken +
                     (req.body.html2 ||
                         '</div>' +
-                        '</div>')
+                        '</div>');
+
+                const info = await sendMail(
+                    user.email,
+                    'password recovery',
+                    html
                 );
 
                 res.status(200).json({
                     status: "sent",
                     success: Boolean(info.accepted && info.accepted.length > 0),
                     info: DEV_VERSION && info,
+                    html,
                 });
 
             } catch (e) {
