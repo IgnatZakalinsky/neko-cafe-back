@@ -13,10 +13,15 @@ exports.routes = (app) => {
     // app.use('/shop', shop);
     //
     // app.use('/file', file);
-    //default
+    //test
     app.use((req, res) => {
         console.log('Neko-bad url: ', req.method, req.url);
-        res.status(404).json({ error: 'bad url', method: req.method, url: req.url });
+        res.status(404).json({ error: 'bad url test', method: req.method, url: req.url });
     });
+    //default
+    // app.use((req: Request, res: Response) => {
+    //     console.log('Neko-bad url: ', req.method, req.url);
+    //     res.status(404).json({error: 'bad url', method: req.method, url: req.url});
+    // });
 };
 //# sourceMappingURL=routes.js.map

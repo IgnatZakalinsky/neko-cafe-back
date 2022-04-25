@@ -24,7 +24,7 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
         else {
             try {
                 const resetPasswordToken = yield generateResetPasswordToken_1.generateResetPasswordToken(user._id);
-                const info = yield gmail_1.sendMail(user.email, 'password recovery', (req.body.html1 ||
+                const html = (req.body.html1 ||
                     '<div style="color: lime; background-color: black; padding: 10px">' +
                         'password recovery link: ' +
                         `<a href="http://localhost:3000/#/set-new-password/${resetPasswordToken}">` +
@@ -34,11 +34,13 @@ exports.passwordRecovery = (req, res) => __awaiter(void 0, void 0, void 0, funct
                     resetPasswordToken +
                     (req.body.html2 ||
                         '</div>' +
-                            '</div>'));
+                            '</div>');
+                const info = yield gmail_1.sendMail(user.email, 'password recovery', html);
                 res.status(200).json({
                     status: "sent",
                     success: Boolean(info.accepted && info.accepted.length > 0),
                     info: app_1.DEV_VERSION && info,
+                    html,
                 });
             }
             catch (e) {
