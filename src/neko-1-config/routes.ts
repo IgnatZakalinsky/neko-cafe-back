@@ -21,8 +21,8 @@ export const routes = (app: Express) => {
         res.status(404).json({error: 'bad url test', method: req.method, url: req.url});
     });
     //default
-    app.use((req: Request, res: Response) => {
-        console.log('Neko-bad url: ', req.method, req.url);
-        res.status(404).json({error: 'bad url', method: req.method, url: req.url});
-    });
+    // app.use((req: Request, res: Response) => {
+    //     console.log('Neko-bad url: ', req.method, req.url);
+    //     res.status(404).json({error: 'bad url', method: req.method, url: req.url});
+    // });
 };
